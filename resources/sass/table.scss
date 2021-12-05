@@ -1,0 +1,42 @@
+table {
+    border: 2px solid $darkBlue;
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+
+    th,
+    td {
+        border: 2px solid $darkBlue;
+        padding: 10px;
+    }
+
+    th {
+        background: $darkBlue;
+        color: $white;
+    }
+    td {
+        text-align: center;
+
+        &:first-child {
+            background: $lightBlue;
+        }
+        .form-control {
+            cursor: pointer;
+            border: solid 2px transparent;
+            padding: 6px;
+            width: 100%;
+            margin: 0 auto;
+            min-width: fit-content;
+            max-width: 100%;
+            display: block;
+            text-align: center;
+
+            &:focus {
+                cursor: text;
+                border-color: $darkBlue;
+                border-radius: 10px;
+                text-align: left;
+            }
+        }
+    }
+}

@@ -9,7 +9,7 @@
                 <th style="width: 1%;">
                     <input type="checkbox" @click="select_all_via_check_box" v-model="all_select">
                 </th>
-                <th style="width: 20%;">Name</th>
+                <th style="width: 20%;">Product Name</th>
                 <th style="width: 5%;">Quantity in Stock</th>
                 <th style="width: 10%;">Price</th>
                 <th style="width: 10%;">Total</th>
@@ -35,7 +35,8 @@
                 select: '',
                 all_select: false,
                 select_delete_text: 'Delete All',
-                fields: {}
+                fields: {},
+                // errors: {}
             }
         },
         methods: {
@@ -57,12 +58,14 @@
                 }
             },
             handleBlur(product) {
+                // this.errors = {};
                 this.fields = {name: product.name, stock: product.stock, price: product.price}
                 axios.post(`api/update/${product.id}`, this.fields).then(response => {
                     this.$emit('updateProducts', response.data)
                 }).catch(error => {
                     if (error.response.status === 422) {
-                        this.errors = error.response.data.errors || {};
+                        // TODO: @Do something with error handling :)
+                        // this.errors = error.response.data.errors || {};
                     }
                 });
             },

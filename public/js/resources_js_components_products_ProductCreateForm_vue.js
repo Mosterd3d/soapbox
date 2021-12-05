@@ -31,6 +31,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -140,132 +149,152 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "form",
-    {
-      on: {
-        submit: function ($event) {
-          $event.preventDefault()
-          return _vm.submit.apply(null, arguments)
+  return _c("div", { staticClass: "registration-form" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        on: {
+          submit: function ($event) {
+            $event.preventDefault()
+            return _vm.submit.apply(null, arguments)
+          },
         },
       },
-    },
-    [
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.fields.name,
-              expression: "fields.name",
+      [
+        _c("div", { staticClass: "form-group" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.fields.name,
+                expression: "fields.name",
+              },
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              placeholder: "Product Name*",
+              name: "name",
+              id: "name",
             },
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            placeholder: "Product Name*",
-            name: "name",
-            id: "name",
-          },
-          domProps: { value: _vm.fields.name },
-          on: {
-            input: function ($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.fields, "name", $event.target.value)
+            domProps: { value: _vm.fields.name },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.fields, "name", $event.target.value)
+              },
             },
-          },
-        }),
+          }),
+          _vm._v(" "),
+          _vm.errors && _vm.errors.name
+            ? _c("div", { staticClass: "text-danger" }, [
+                _vm._v(_vm._s(_vm.errors.name[0])),
+              ])
+            : _vm._e(),
+        ]),
         _vm._v(" "),
-        _vm.errors && _vm.errors.name
-          ? _c("div", { staticClass: "text-danger" }, [
-              _vm._v(_vm._s(_vm.errors.name[0])),
-            ])
-          : _vm._e(),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.fields.stock,
-              expression: "fields.stock",
+        _c("div", { staticClass: "form-group" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.fields.stock,
+                expression: "fields.stock",
+              },
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "number",
+              placeholder: "Quantity of stock*",
+              name: "stock",
+              id: "stock",
             },
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "number",
-            placeholder: "Quantity of stock*",
-            name: "stock",
-            id: "stock",
-          },
-          domProps: { value: _vm.fields.stock },
-          on: {
-            input: function ($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.fields, "stock", $event.target.value)
+            domProps: { value: _vm.fields.stock },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.fields, "stock", $event.target.value)
+              },
             },
-          },
-        }),
+          }),
+          _vm._v(" "),
+          _vm.errors && _vm.errors.stock
+            ? _c("div", { staticClass: "text-danger" }, [
+                _vm._v(_vm._s(_vm.errors.stock[0])),
+              ])
+            : _vm._e(),
+        ]),
         _vm._v(" "),
-        _vm.errors && _vm.errors.stock
-          ? _c("div", { staticClass: "text-danger" }, [
-              _vm._v(_vm._s(_vm.errors.stock[0])),
-            ])
-          : _vm._e(),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.fields.price,
-              expression: "fields.price",
+        _c("div", { staticClass: "form-group" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.fields.price,
+                expression: "fields.price",
+              },
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "number",
+              name: "price",
+              id: "price",
+              step: "0.01",
+              placeholder: "price*",
             },
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "number",
-            name: "price",
-            id: "price",
-            step: "0.01",
-            placeholder: "price*",
-          },
-          domProps: { value: _vm.fields.price },
-          on: {
-            input: function ($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.fields, "price", $event.target.value)
+            domProps: { value: _vm.fields.price },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.fields, "price", $event.target.value)
+              },
             },
-          },
-        }),
+          }),
+          _vm._v(" "),
+          _vm.errors && _vm.errors.price
+            ? _c("div", { staticClass: "text-danger" }, [
+                _vm._v(_vm._s(_vm.errors.price[0])),
+              ])
+            : _vm._e(),
+        ]),
         _vm._v(" "),
-        _vm.errors && _vm.errors.price
-          ? _c("div", { staticClass: "text-danger" }, [
-              _vm._v(_vm._s(_vm.errors.price[0])),
-            ])
-          : _vm._e(),
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Submit")]
-      ),
-    ]
-  )
+        _c("div", { staticClass: "requiredInfo" }, [
+          _vm._v("\n            *Required field\n        "),
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+          [_vm._v("Submit")]
+        ),
+      ]
+    ),
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h1", [
+      _c("strong", [_vm._v("Registration form")]),
+      _c("br"),
+      _vm._v(" "),
+      _c("i", [_vm._v("to submit your product")]),
+    ])
+  },
+]
 render._withStripped = true
 
 

@@ -1,36 +1,22 @@
-$white: #fff;
-$lightBlue: #c8e6ee;
-$lightBlue2: #60b3d1;
-$blue: #239ac3;
-$darkBlue: #2899c0;
-$red: #C8543C;
-
-@mixin placeholder {
-    &::-webkit-input-placeholder {@content}
-    &:-moz-placeholder           {@content}
-    &::-moz-placeholder          {@content}
-    &:-ms-input-placeholder      {@content}
-}
-
-html, body {
-    margin:0;
-    padding:0;
-}
+@import "reset";
+@import "variables";
+@import "mixins";
+@import "table";
+@import "formElements";
 
 body {
     color: $blue;
-    background: #2090D4;
-    font-family: Arial, serif;
-    font-size: 18px;
+    background: $blue2;
+    font-family: $fontFamily;
+    font-size: $fontSize-default;
 }
 
 .container {
-    max-width: 1024px;
+    max-width: $containerWidth;
     margin: 0 auto;
-    background: url("/images/background.png") repeat-y $white;
-    background-position: right top;
+    background: url("/images/background.png") repeat-y $white right top;
     position: relative;
-    padding: 30px;
+    padding: $gap;
 
     .inner-container {
         max-width: 600px;
@@ -38,8 +24,8 @@ body {
 }
 .logo {
     position: absolute;
-    top: 30px;
-    right: 30px;
+    top: $gap;
+    right: $gap;
     width: 250px;
     height: 40px;
     background: url("/images/logo.png") no-repeat;
@@ -48,13 +34,13 @@ body {
 .productList,
 .break,
 .registration-form {
-    margin-bottom: 30px;
+    margin-bottom: $gap;
  }
 
 h1 {
     font-size: 36px;
     font-weight: normal;
-    margin: 0 0 30px 0;
+    margin: 0 0 $gap 0;
 }
 
 .btn-primary {
@@ -63,7 +49,7 @@ h1 {
     text-decoration: underline;
     min-width: 200px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: $fontSize-default;
     padding: 6px 12px;
     font-style: italic;
     background-color: $lightBlue2;
@@ -78,110 +64,9 @@ h1 {
     &:active{
        box-shadow: none;
     }
-
 }
 
 hr {
     border: none;
     border-top: 2px solid $darkBlue;
-}
-table, th, td {
-    border: 2px solid $darkBlue;
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-    table-layout: fixed;
-    th {
-        background: $darkBlue;
-        color: $white;
-        padding: 10px;
-    }
-    td {
-        padding: 10px;
-        text-align: center;
-
-        &:first-child {
-            background: $lightBlue;
-            text-align: left;
-        }
-    }
-}
-input:focus, textarea:focus, select:focus{
-    outline: none;
-}
-
-input {
-    border: none;
-    border-bottom: solid 1px $darkBlue;
-    padding: 20px 0;
-    font-size: 18px;
-    color: $darkBlue;
-    width: 100%;
-
-    &[type="checkbox"] {
-        width: auto;
-    }
-
-    @include placeholder {
-        color: $darkBlue;
-        text-align: left;
-    }
-}
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
-}
-/* Change the white to any color */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active{
-    background-color: transparent !important;
-    -webkit-box-shadow: 0 0 0 50px white inset;
-    -webkit-text-fill-color: $darkBlue !important;
-}
-.text-danger {
-    font-size: 12px;
-    color: $red;
-    padding: 6px 0;
-}
-select {
-    background: $darkBlue;
-    padding: 10px;
-    color: $white;
-}
-
-.requiredInfo {
-    font-size: 12px;
-    font-style: italic;
-    margin: 20px 0;
-}
-
-
-.single-product .form-control {
-    cursor: pointer;
-    border: solid 2px transparent;
-    padding: 6px;
-    width: 100%;
-    margin: 0 auto;
-    min-width: fit-content;
-    max-width: 100%;
-    display: block;
-    text-align: center;
-
-    &:focus {
-        cursor: text;
-        border-color: $darkBlue;
-        border-radius: 10px;
-        text-align: left;
-    }
 }

@@ -38,30 +38,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ProductList",
   props: ['items'],
+  data: function data() {
+    return {
+      deleteItems: [],
+      select: '',
+      all_select: false,
+      select_delete_text: 'Delete All',
+      fields: {} // errors: {}
+
+    };
+  },
   methods: {
-    edit: function edit(key, id) {
-      console.log("Removing", key);
-      console.log('lets edit ' + id);
-    },
-    remove: function remove(index, id) {
+    deleteProduct: function deleteProduct() {
       var _this = this;
 
-      console.log("Removing", index);
-      console.log('lets remove ' + id);
-      axios["delete"]('api/product/delete/' + id).then(function (response) {
-        console.log(response);
-
+      axios.post('api/remove', this.deleteItems).then(function (response) {
         _this.$emit('updateProducts', response.data);
+      });
+    },
+    select_all_via_check_box: function select_all_via_check_box() {
+      var _this2 = this;
+
+      if (this.all_select === false) {
+        this.all_select = true;
+        this.items.forEach(function (item) {
+          _this2.deleteItems.push(item.id);
+        });
+      } else {
+        this.all_select = false;
+        this.deleteItems = [];
+      }
+    },
+    handleBlur: function handleBlur(product) {
+      var _this3 = this;
+
+      // this.errors = {};
+      this.fields = {
+        name: product.name,
+        stock: product.stock,
+        price: product.price
+      };
+      axios.post("api/update/".concat(product.id), this.fields).then(function (response) {
+        _this3.$emit('updateProducts', response.data);
       })["catch"](function (error) {
-        if (error.response.status === 422) {
-          _this.errors = error.response.data.errors || {};
+        if (error.response.status === 422) {// TODO: @Do something with error handling :)
+          // this.errors = error.response.data.errors || {};
         }
       });
     }
@@ -154,85 +178,256 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "table",
-    { staticClass: "table table-bordered table-responsive-lg" },
-    [
-      _vm._m(0),
-      _vm._v(" "),
-      _vm._l(_vm.items, function (product, index) {
-        return _c(
-          "tr",
-          { staticClass: "single-product", on: { if: _vm.items } },
-          [
-            _c("td", [_vm._v(_vm._s(product.name))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(product.stock))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(product.price))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(product.price * product.stock))]),
+  return _c("div", { staticClass: "productList" }, [
+    _c(
+      "select",
+      {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.select,
+            expression: "select",
+          },
+        ],
+        staticStyle: { "margin-bottom": "10px" },
+        on: {
+          change: [
+            function ($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function (o) {
+                  return o.selected
+                })
+                .map(function (o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.select = $event.target.multiple
+                ? $$selectedVal
+                : $$selectedVal[0]
+            },
+            _vm.deleteProduct,
+          ],
+        },
+      },
+      [
+        _c("option", { attrs: { value: "" } }, [_vm._v("Select")]),
+        _vm._v(" "),
+        _c("option", { attrs: { value: "" } }, [_vm._v("Delete")]),
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "table",
+      { staticClass: "table table-bordered table-responsive-lg" },
+      [
+        _c("tr", [
+          _c("th", { staticStyle: { width: "1%" } }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.all_select,
+                  expression: "all_select",
+                },
+              ],
+              attrs: { type: "checkbox" },
+              domProps: {
+                checked: Array.isArray(_vm.all_select)
+                  ? _vm._i(_vm.all_select, null) > -1
+                  : _vm.all_select,
+              },
+              on: {
+                click: _vm.select_all_via_check_box,
+                change: function ($event) {
+                  var $$a = _vm.all_select,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.all_select = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.all_select = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.all_select = $$c
+                  }
+                },
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _c("th", { staticStyle: { width: "20%" } }, [_vm._v("Product Name")]),
+          _vm._v(" "),
+          _c("th", { staticStyle: { width: "5%" } }, [
+            _vm._v("Quantity in Stock"),
+          ]),
+          _vm._v(" "),
+          _c("th", { staticStyle: { width: "10%" } }, [_vm._v("Price")]),
+          _vm._v(" "),
+          _c("th", { staticStyle: { width: "10%" } }, [_vm._v("Total")]),
+        ]),
+        _vm._v(" "),
+        _vm._l(_vm.items, function (product, index) {
+          return _c("tr", { staticClass: "single-product" }, [
+            _c("td", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.deleteItems,
+                    expression: "deleteItems",
+                  },
+                ],
+                attrs: { type: "checkbox" },
+                domProps: {
+                  value: "" + product.id,
+                  checked: Array.isArray(_vm.deleteItems)
+                    ? _vm._i(_vm.deleteItems, "" + product.id) > -1
+                    : _vm.deleteItems,
+                },
+                on: {
+                  change: function ($event) {
+                    var $$a = _vm.deleteItems,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = "" + product.id,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 && (_vm.deleteItems = $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          (_vm.deleteItems = $$a
+                            .slice(0, $$i)
+                            .concat($$a.slice($$i + 1)))
+                      }
+                    } else {
+                      _vm.deleteItems = $$c
+                    }
+                  },
+                },
+              }),
+            ]),
             _vm._v(" "),
             _c("td", [
-              _c("form", { attrs: { action: "", method: "POST" } }, [
-                _c(
-                  "a",
+              _c("input", {
+                directives: [
                   {
-                    attrs: { href: "", title: "edit" },
-                    on: {
-                      click: function ($event) {
-                        $event.preventDefault()
-                        return _vm.edit(index, product.id)
-                      },
-                    },
+                    name: "model",
+                    rawName: "v-model",
+                    value: product.name,
+                    expression: "product.name",
                   },
-                  [_c("i", { staticClass: "fas fa-edit  fa-lg" })]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticStyle: {
-                      border: "none",
-                      "background-color": "transparent",
-                    },
-                    attrs: { type: "submit", title: "delete" },
-                    on: {
-                      click: function ($event) {
-                        $event.preventDefault()
-                        return _vm.remove(index, product.id)
-                      },
-                    },
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  size: "14",
+                  type: "text",
+                  placeholder: "Product Name*",
+                  name: "name",
+                  id: "name",
+                },
+                domProps: { value: product.name },
+                on: {
+                  blur: function ($event) {
+                    return _vm.handleBlur(product)
                   },
-                  [_c("i", { staticClass: "fas fa-trash fa-lg text-danger" })]
-                ),
-              ]),
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(product, "name", $event.target.value)
+                  },
+                },
+              }),
             ]),
-          ]
-        )
-      }),
-    ],
-    2
-  )
+            _vm._v(" "),
+            _c("td", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: product.stock,
+                    expression: "product.stock",
+                  },
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  size: "4",
+                  type: "number",
+                  placeholder: "Quantity of stock*",
+                  name: "stock",
+                  id: "stock",
+                },
+                domProps: { value: product.stock },
+                on: {
+                  blur: function ($event) {
+                    return _vm.handleBlur(product)
+                  },
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(product, "stock", $event.target.value)
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: product.price,
+                    expression: "product.price",
+                  },
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  size: "10",
+                  step: "0.01",
+                  type: "number",
+                  placeholder: "Price*",
+                  name: "price",
+                  id: "price",
+                },
+                domProps: { value: product.price },
+                on: {
+                  blur: function ($event) {
+                    return _vm.handleBlur(product)
+                  },
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(product, "price", $event.target.value)
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(_vm._s((product.price * product.stock).toFixed(2))),
+            ]),
+          ])
+        }),
+      ],
+      2
+    ),
+  ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Name")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Quantity in Stock")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Price")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Total")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Actions")]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
